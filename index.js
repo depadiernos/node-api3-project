@@ -12,3 +12,8 @@ server.listen(port, host, () => {
 
 server.use("/api/users", userRouter)
 server.use("/api/users/:id/posts", postRouter)
+
+server.use((err, req, res, next) =>{
+    console.log(err)
+    res.status(500).json({message: "an internal error occurred."})
+})
