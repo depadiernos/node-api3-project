@@ -11,7 +11,7 @@ server.listen(port, host, () => {
   });
 
 server.use("/api/users", userRouter)
-server.use("/api/users/:id/posts", postRouter)
+server.use("/api/users/:id/posts/:postId", postRouter)
 
 server.use((err, req, res, next) =>{
     console.log(err)
