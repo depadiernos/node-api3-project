@@ -1,13 +1,17 @@
-const express = require('express');
-
+const express = require("express");
+const cors = require("cors");
 const server = express();
 
-server.get('/', (req, res) => {
+const { logger } = require("./middlewares");
+
+server.get("/", (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
 
 //custom middleware
 
-function logger(req, res, next) {}
+server.use(cors());
+server.use(express.json());
+server.use(logger());
 
 module.exports = server;
