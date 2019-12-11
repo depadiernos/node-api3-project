@@ -1,27 +1,38 @@
-const express = require('express');
+const express = require("express");
+const db = require("./postDb");
+const {
+  validatePost,
+  validatePostId,
+  validateUserId
+} = require("../middlewares");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-router.get('/', (req, res) => {
-  // do your magic!
+router.get("/", validatePostId(), (req, res, next) => {
+  try {
+    res.status(200).json(req.post);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.get('/:id', (req, res) => {
-  // do your magic!
+router.delete("/", validatePostId(), async (req, res, next) => {
+  try {
+    const deletedPost = await db.remove(req.params.postId);
+    if (deletedPost) res.status(200).json(req.post);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', (req, res) => {
-  // do your magic!
+router.put("/", validatePostId(), validatePost(), async (req, res,next) => {
+  try {
+    const post = { text: req.body.text, user_id: req.params.id };
+    const updatedPost = await db.update(req.params.postId, post);
+    res.status(200).json(post);
+  } catch (err) {
+    next(err);
+  }
 });
-
-router.put('/:id', (req, res) => {
-  // do your magic!
-});
-
-// custom middleware
-
-function validatePostId(req, res, next) {
-  // do your magic!
-}
 
 module.exports = router;
