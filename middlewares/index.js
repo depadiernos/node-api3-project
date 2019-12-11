@@ -35,13 +35,12 @@ const validatePost = () => (req, res, next) => {
   next();
 };
 
-const validatePostId = () => (req, res, next) => {
-  const postId = postDb.getById(req.params.postId);
-  const userId = userDb.getById(req.params.id);
+const validatePostId = () => async (req, res, next) => {
+  const postId = await postDb.getById(req.params.postId);
+  const userId = await userDb.getById(req.params.id);
   if (!userId) {
     return res.status(400).json({ message: "invalid user id" });
-  }
-  if (!postId) {
+  } else if (!postId) {
     return res.status(400).json({ message: "invalid post id" });
   }
   req.post = postId;
