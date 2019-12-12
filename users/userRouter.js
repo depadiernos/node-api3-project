@@ -64,7 +64,7 @@ router.delete("/:id", validateUserId(), async (req, res, next) => {
   }
 });
 
-router.put("/:id", validateUserId(), validateUser(), async (req, res, next) => {
+router.put("/:id", validateUser(), validateUserId(), async (req, res, next) => {
   try {
     const user = { name: req.body.name };
     const updatedUser = await db.update(req.params.id, user);

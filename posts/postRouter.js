@@ -25,7 +25,7 @@ router.delete("/", validatePostId(), async (req, res, next) => {
   }
 });
 
-router.put("/", validatePostId(), validatePost(), async (req, res,next) => {
+router.put("/", validatePost(), validatePostId(), async (req, res,next) => {
   try {
     const post = { text: req.body.text, user_id: req.params.id };
     const updatedPost = await db.update(req.params.postId, post);
